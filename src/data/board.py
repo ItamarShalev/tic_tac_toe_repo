@@ -94,7 +94,7 @@ class Board:
         for delta_fn in delta_functions.values():
             sequence = 1
             for direction in (1, -1):
-                for i in range(max(self._lines, self._columns)):
+                for i in range(1, max(self._lines, self._columns)):
                     step_x, step_y = delta_fn(i * direction)
                     new_row = row + step_x
                     new_column = column + step_y
@@ -102,7 +102,7 @@ class Board:
                     valid_column = 0 <= new_row < self._columns
                     valid_cell = valid_row and valid_column
                     new_index = self._columns * new_row + new_column
-                    if not valid_cell or self[new_index] is not self[index]:
+                    if not valid_cell or not self._valid_index(new_index) or self[new_index] is not self[index]:
                         break
                     sequence += 1
 
