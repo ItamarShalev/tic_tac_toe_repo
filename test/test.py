@@ -1,10 +1,44 @@
+from abc import ABC, abstractmethod
 from pathlib import Path
 
 import yaml
 import pytest
 
 from src.data import exceptions
+from src.data.state import State
 from src.game import Game
+
+
+class Action(ABC):
+
+
+    @abstractmethod
+    def __call__(self, game: Game):
+        pass
+
+
+class Move(Action):
+
+    def __init__(self, index: int, error: str = ""):
+        self.index = index
+        self.error = error
+
+
+    def __call__(self, game: Game):
+        if self.error:
+            exception = getattr(exceptions, title_case(self.error))
+            with pytest.raises(exception):
+                game.play(self.index)
+        else:
+            game.play(self.index)
+
+class CheckState(Action):
+
+    def __init__(self, state: str):
+        self.state = State.from_str(state)
+
+    def __call__(self, game: Game):
+        assert game.state is self.state
 
 
 def all_yaml_files() -> list[Path]:
@@ -40,4 +74,10 @@ def test_yaml_test_case(yaml_file: Path):
     game: Game | None = init_game(data)
     if not game:
         return
-    print(game)
+
+    for action_data in data.get("actions", []):
+        print(f"Action data: {action_data}")
+        action_type = title_case(action_data["type"])
+        del action_data["type"]
+        action = globals()[action_type](**action_data)
+        action(game)

@@ -1,0 +1,25 @@
+game:
+    board:
+        - [ " ", "O", " " ]
+        - [ " ", " ", " " ]
+        - [ " ", " ", "X" ]
+
+    current_player: "X"
+
+actions:
+    -   type: move
+        index: 7
+
+    -   type: move
+        index: 7
+        error: occupied_cell
+
+    -   type: move
+        index: 5
+
+    -   type: move
+        index: 6
+
+    -   type: check_state
+        state: X_WIN
+
