@@ -35,3 +35,18 @@ jobs:
             - name: Analyze Using MyPy
               run: |
                   python -m mypy $(git ls-files '*.py')
+    Test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up Python 3.13
+              uses: actions/setup-python@v5.0.0
+              with:
+                  python-version: "3.13"
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  python -m pip install -r requirements_dev.txt
+            - name: Test Using PyTest
+              run: |
+                  python -m pytest $(git ls-files '*.py')
