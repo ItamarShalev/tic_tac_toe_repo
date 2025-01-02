@@ -1,0 +1,8 @@
+game:
+    board:
+        - [ "O", "O", " " ]
+        - [ "O", " ", "X" ]
+        - [ " ", " ", "X" ]
+
+    current_player: "O"
+    error: invalid_turn
