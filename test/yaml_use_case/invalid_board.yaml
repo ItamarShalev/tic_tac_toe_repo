@@ -1,0 +1,8 @@
+game:
+    board:
+        - [ "O", "O", " " ]
+        - [ "O", " ", " " ]
+        - [ " ", " ", "X" ]
+
+    current_player: "X"
+    error: invalid_board
